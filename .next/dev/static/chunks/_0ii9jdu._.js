@@ -1540,7 +1540,20 @@ __turbopack_context__.s([
     ()=>uploadProfileImages
 ]);
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$build$2f$polyfills$2f$process$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = /*#__PURE__*/ __turbopack_context__.i("[project]/node_modules/next/dist/build/polyfills/process.js [app-client] (ecmascript)");
-const API_URL = __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$build$2f$polyfills$2f$process$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"].env.NEXT_PUBLIC_API_URL || 'http://localhost:8000/api';
+function normalizeApiBase(value) {
+    const fallback = 'https://alumnibackendapi.vercel.app/api';
+    const raw = (value || fallback).trim();
+    try {
+        const url = new URL(raw);
+        let path = (url.pathname || '').replace(/\/+$/, '');
+        path = path.replace(/\/auth\/login$/i, '');
+        if (!path || path === '/') path = '/api';
+        return `${url.origin}${path}`;
+    } catch  {
+        return fallback;
+    }
+}
+const API_URL = normalizeApiBase(("TURBOPACK compile-time value", "https://alumnibackendapi.vercel.app/api"));
 async function apiRequest(path, options = {}) {
     const { _retried, ...requestOptions } = options;
     const method = (options.method || 'GET').toUpperCase();
@@ -1584,9 +1597,11 @@ async function apiRequest(path, options = {}) {
     if (response.status === 204 || response.status === 205) {
         return {};
     }
-    const contentType = response.headers.get('content-type') || '';
-    const isJson = contentType.includes('application/json');
-    const data = isJson ? await response.json().catch(()=>({})) : await response.text();
+    const contentType = response.headers?.get?.('content-type') || '';
+    const hasJsonReader = typeof response.json === 'function';
+    const hasTextReader = typeof response.text === 'function';
+    const isJson = contentType.includes('application/json') || hasJsonReader && !hasTextReader;
+    const data = isJson ? await response.json().catch(()=>({})) : hasTextReader ? await response.text() : {};
     if (!response.ok) {
         if (isJson && data && typeof data === 'object') throw new Error(data.detail || 'Request failed');
         throw new Error(typeof data === 'string' && data.trim() || 'Request failed');

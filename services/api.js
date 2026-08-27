@@ -1,4 +1,18 @@
-const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000/api';
+function normalizeApiBase(value) {
+  const fallback = 'https://alumnibackendapi.vercel.app/api';
+  const raw = (value || fallback).trim();
+  try {
+    const url = new URL(raw);
+    let path = (url.pathname || '').replace(/\/+$/, '');
+    path = path.replace(/\/auth\/login$/i, '');
+    if (!path || path === '/') path = '/api';
+    return `${url.origin}${path}`;
+  } catch {
+    return fallback;
+  }
+}
+
+const API_URL = normalizeApiBase(process.env.NEXT_PUBLIC_API_URL);
 
 export async function apiRequest(path, options = {}) {
   const { _retried, ...requestOptions } = options;
@@ -31,9 +45,15 @@ export async function apiRequest(path, options = {}) {
     return {};
   }
 
-  const contentType = response.headers.get('content-type') || '';
-  const isJson = contentType.includes('application/json');
-  const data = isJson ? await response.json().catch(() => ({})) : await response.text();
+  const contentType = response.headers?.get?.('content-type') || '';
+  const hasJsonReader = typeof response.json === 'function';
+  const hasTextReader = typeof response.text === 'function';
+  const isJson = contentType.includes('application/json') || (hasJsonReader && !hasTextReader);
+  const data = isJson
+    ? await response.json().catch(() => ({}))
+    : hasTextReader
+      ? await response.text()
+      : {};
 
   if (!response.ok) {
     if (isJson && data && typeof data === 'object') throw new Error(data.detail || 'Request failed');
@@ -48,7 +68,8 @@ export async function refreshSession() {
 }
 
 export async function login(credentials) {
-  return apiRequest('/auth/login/', { method: 'POST', body: JSON.stringify(credentials) });
+  return apiRequest('/auth/login/',
+    { method: 'POST', body: JSON.stringify(credentials) });
 }
 
 export const requestPasswordOtp = (email) => apiRequest('/auth/password/forgot/', { method: 'POST', body: JSON.stringify({ email }) });
@@ -61,7 +82,11 @@ export async function registerAccount(details) {
 
 export const logout = () => apiRequest('/auth/logout/', { method: 'POST' });
 
-export const getEvents = (params = {}) => { const query = new URLSearchParams(Object.entries(params).filter(([, value]) => value)); return apiRequest(`/events/${query.toString() ? `?${query}` : ''}`); };
+export const getEvents = (params = {}) => {
+  const query = new URLSearchParams(
+    Object.entries(params).filter(([, value]) => value));
+  return apiRequest(`/events/${query.toString() ? `?${query}` : ''}`);
+};
 export const getEvent = (eventId) => apiRequest(`/events/${eventId}/`);
 export const getAlumni = (page = 1) => apiRequest(`/alumni/?page=${page}`);
 export const getAlumniProfile = (personId) => apiRequest(`/alumni/${personId}/`);
