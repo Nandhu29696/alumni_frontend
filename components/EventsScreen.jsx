@@ -1,7 +1,7 @@
 import { useMemo, useState } from 'react';
 import EventCard from './EventCard';
 
-export default function EventsScreen({ events, registered, onRsvp, onDelete, onOpen, admin, loading = false }) {
+export default function EventsScreen({ events, registered, onRsvp, onOpen, loading = false }) {
   const [filters, setFilters] = useState({ type: '', location: '', status: 'upcoming', date: '' });
   const [search, setSearch] = useState('');
   const [view, setView] = useState('grid');
@@ -37,7 +37,6 @@ export default function EventsScreen({ events, registered, onRsvp, onDelete, onO
         <h2>Community events</h2>
         <p>Join reunions, conversations, and gatherings hosted by your community.</p>
       </div>
-      {admin && <span className="admin-badge">ADMIN MODE</span>}
     </div>
 
     <div className="event-toolbar">
@@ -56,29 +55,33 @@ export default function EventsScreen({ events, registered, onRsvp, onDelete, onO
       </div>
     </div>
 
-    <div className={filtersOpen ? 'event-filters mobile-open' : 'event-filters'}>
-      <input type="date" value={filters.date} onChange={(event) => updateFilter('date', event.target.value)} />
-      <select value={filters.type} onChange={(event) => updateFilter('type', event.target.value)}>
-        <option value="">All types</option>
-        <option value="offline">Offline</option>
-        <option value="online">Online</option>
-        <option value="hybrid">Hybrid</option>
-      </select>
-      <input placeholder="Filter location" value={filters.location} onChange={(event) => updateFilter('location', event.target.value)} />
-      <select value={filters.status} onChange={(event) => updateFilter('status', event.target.value)}>
-        <option value="">All status</option>
-        <option value="upcoming">Upcoming</option>
-        <option value="completed">Completed</option>
-        <option value="cancelled">Cancelled</option>
-      </select>
-      <button type="button" className="text-button filter-reset" onClick={resetFilters}>Reset</button>
+    <div className={filtersOpen ? 'event-filter-panel mobile-open' : 'event-filter-panel'}>
+      <div className="event-filters">
+        <input type="date" value={filters.date} onChange={(event) => updateFilter('date', event.target.value)} />
+        <select value={filters.type} onChange={(event) => updateFilter('type', event.target.value)}>
+          <option value="">All types</option>
+          <option value="offline">Offline</option>
+          <option value="online">Online</option>
+          <option value="hybrid">Hybrid</option>
+        </select>
+        <input placeholder="Filter location" value={filters.location} onChange={(event) => updateFilter('location', event.target.value)} />
+        <select value={filters.status} onChange={(event) => updateFilter('status', event.target.value)}>
+          <option value="">All status</option>
+          <option value="upcoming">Upcoming</option>
+          <option value="completed">Completed</option>
+          <option value="cancelled">Cancelled</option>
+        </select>
+      </div>
+      <div className="event-filter-actions">
+        <button type="button" className="text-button filter-reset" onClick={resetFilters}>Reset filters</button>
+      </div>
     </div>
 
     {loading ? <div className="events-grid events-list skeleton-grid" role="status" aria-live="polite">
       {Array.from({ length: 6 }).map((_, index) => <article className="event-card skeleton-card" key={index} />)}
     </div> : view === 'grid' ? <>
       <div className="events-grid events-list">
-        {visible.map((event) => <EventCard key={event.id} event={event} registered={registered.includes(event.id)} onRsvp={onRsvp} onDelete={onDelete} onOpen={onOpen} admin={admin} />)}
+        {visible.map((event) => <EventCard key={event.id} event={event} registered={registered.includes(event.id)} onRsvp={onRsvp} onOpen={onOpen} />)}
       </div>
       {!visible.length && <div className="empty-state">No events match your filters.</div>}
     </> : <>
@@ -94,7 +97,27 @@ export default function EventsScreen({ events, registered, onRsvp, onDelete, onO
               <td data-label="Location">{event.location || '—'}</td>
               <td data-label="Status"><span className="status-chip">{event.status || 'upcoming'}</span></td>
               <td data-label="Action">
-                <button className="table-action" type="button" onClick={() => onOpen(event)}>Open</button>
+                <div className="table-action-group">
+                  <button
+                    className="table-icon-action"
+                    type="button"
+                    onClick={() => onOpen(event)}
+                    data-tooltip="Open"
+                    aria-label="Open event"
+                  >
+                    ↗
+                  </button>
+                  <button
+                    className={registered.includes(event.id) ? 'table-icon-action is-active' : 'table-icon-action'}
+                    type="button"
+                    disabled={registered.includes(event.id)}
+                    onClick={() => onRsvp(event)}
+                    data-tooltip={registered.includes(event.id) ? 'Going' : 'RSVP now'}
+                    aria-label={registered.includes(event.id) ? 'Going' : 'RSVP now'}
+                  >
+                    {registered.includes(event.id) ? '✓' : '+'}
+                  </button>
+                </div>
               </td>
             </tr>)}
           </tbody>

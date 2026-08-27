@@ -235,6 +235,11 @@ export default function Home() {
   }
 
   async function editPerson(id, person) {
+    if (!id) {
+      notify('error', 'Could not update this profile: missing person id.');
+      return;
+    }
+
     if (Object.prototype.hasOwnProperty.call(person, 'is_active') && person.is_active === false) {
       const confirmed = await requestConfirm({
         title: 'Disable this user?',
@@ -247,7 +252,7 @@ export default function Home() {
 
     try {
       await updatePerson(id, person);
-      setPeople((current) => current.map((item) => item.user_id === id ? { ...item, ...person } : item));
+      setPeople((current) => current.map((item) => ((item.user_id || item.id) === id ? { ...item, ...person } : item)));
       notify('success', 'Profile updated.');
     } catch (error) {
       notify('error', errorMessage(error, 'Could not update person.'));
@@ -326,7 +331,7 @@ export default function Home() {
   }
 
   if (!selectedEvent && !selectedPerson && active === 'Events') {
-    screen = <EventsScreen events={events} registered={registered} onRsvp={registerFor} onOpen={openEvent} onDelete={removeEvent} admin={admin} loading={loading} />;
+    screen = <EventsScreen events={events} registered={registered} onRsvp={registerFor} onOpen={openEvent} loading={loading} />;
   }
 
   if (!selectedEvent && !selectedPerson && active === 'Alumni directory') {

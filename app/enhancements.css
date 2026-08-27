@@ -1,11 +1,15 @@
+.event-filter-panel {
+    background: #fff;
+    border: 1px solid var(--line);
+    padding: 14px;
+    margin-bottom: 24px
+}
+
 .event-filters {
     display: grid;
     grid-template-columns: minmax(150px, .8fr) minmax(150px, .8fr) minmax(180px, 1.4fr) minmax(150px, .8fr);
     gap: 10px;
-    padding: 14px;
-    background: #fff;
-    border: 1px solid var(--line);
-    margin-bottom: 24px
+    margin-bottom: 10px
 }
 
 .event-filters input,
@@ -23,6 +27,12 @@
 .event-filters select:focus {
     border-color: var(--green);
     background: #fff
+}
+
+.event-filter-actions {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center
 }
 
 .pagination-controls {
@@ -245,6 +255,17 @@
     background: #eef1e9
 }
 
+.status-button {
+    border: 0;
+    background: transparent;
+    padding: 7px 4px
+}
+
+.status-button:hover {
+    background: transparent;
+    text-decoration: underline
+}
+
 .admin-stack {
     grid-column: 1/-1
 }
@@ -341,11 +362,13 @@
     font: 700 10px 'DM Sans';
     padding: 10px 12px;
     min-height: 44px;
-    cursor: pointer
+    cursor: pointer;
+    display: none
 }
 
 .filter-reset {
-    justify-self: end
+    justify-self: end;
+    margin-left: auto
 }
 
 .pagination-label {
@@ -393,7 +416,11 @@
 }
 
 .event-card {
+    display: flex;
+    flex-direction: column;
     overflow: hidden;
+    min-height: 0;
+    padding: 0;
     border: 1px solid var(--line);
     background: #fff
 }
@@ -439,12 +466,35 @@
 .event-card-body {
     display: grid;
     grid-template-columns: auto 1fr;
+    align-items: start;
     gap: 12px;
     padding: 14px 14px 16px
 }
 
 .event-card-body .date-tile {
+    min-width: 56px;
     margin-top: 2px
+}
+
+.event-copy {
+    min-width: 0
+}
+
+.event-copy h3 {
+    margin: 0 0 8px;
+    font: 600 20px/1.02 'Playfair Display';
+    letter-spacing: -.2px;
+    text-wrap: balance
+}
+
+.event-copy p {
+    margin: 0 0 12px;
+    font-size: 13px;
+    line-height: 1.45
+}
+
+.event-actions {
+    margin-top: auto
 }
 
 .event-card-body .event-copy .tag {
@@ -452,11 +502,53 @@
     margin-bottom: 8px
 }
 
+.overview-events-grid {
+    grid-template-columns: repeat(3, minmax(220px, 1fr));
+    gap: 14px
+}
+
+.overview-events-grid .event-copy h3 {
+    font-size: clamp(30px, 1.9vw, 36px);
+    line-height: 1.08;
+    margin: 0 0 10px;
+    letter-spacing: -.15px;
+    overflow-wrap: anywhere;
+    hyphens: auto
+}
+
+.overview-events-grid .event-copy p {
+    font-size: 12px;
+    line-height: 1.5;
+    margin-bottom: 14px
+}
+
 .admin-toolbar-controls {
     display: flex;
     align-items: center;
     gap: 8px;
-    flex-wrap: wrap
+    justify-content: flex-end;
+    flex-wrap: nowrap;
+    min-width: 0;
+    overflow-x: auto;
+    scrollbar-width: thin
+}
+
+.admin-toolbar-controls>* {
+    flex: 0 0 auto
+}
+
+.published-events .directory-toolbar,
+.admin-people .directory-toolbar {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    align-items: center;
+    column-gap: 14px
+}
+
+.published-events .admin-search,
+.admin-people .admin-search {
+    width: 240px;
+    min-width: 220px
 }
 
 .admin-compact-select {
@@ -465,7 +557,8 @@
     color: var(--green);
     font: 600 11px 'DM Sans';
     padding: 9px 10px;
-    min-height: 40px
+    min-height: 40px;
+    min-width: 118px
 }
 
 .toast-stack {
@@ -747,6 +840,88 @@ textarea:focus-visible {
 
 .table-action:hover {
     background: #dce4d8
+}
+
+.edit-icon-button {
+    width: 44px;
+    min-width: 44px;
+    border: 0;
+    background: transparent;
+    padding: 0;
+    display: grid;
+    place-items: center;
+    font-size: 16px;
+    line-height: 1
+}
+
+.edit-icon-button:hover {
+    background: #eef1e9
+}
+
+.table-action-group {
+    display: flex;
+    align-items: center;
+    gap: 6px
+}
+
+.table-icon-action {
+    position: relative;
+    width: 44px;
+    min-height: 44px;
+    border: 1px solid var(--line);
+    background: #fff;
+    color: var(--green);
+    font: 700 15px 'DM Sans';
+    line-height: 1;
+    cursor: pointer
+}
+
+.table-icon-action.is-active,
+.table-icon-action:disabled {
+    color: #5c8a58;
+    background: #eef1e9;
+    cursor: default
+}
+
+.table-icon-action::before,
+.table-icon-action::after {
+    position: absolute;
+    left: 50%;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity .16s ease, transform .16s ease
+}
+
+.table-icon-action::after {
+    content: attr(data-tooltip);
+    bottom: calc(100% + 9px);
+    transform: translate(-50%, 6px);
+    white-space: nowrap;
+    background: #202521;
+    color: #fff;
+    font: 600 10px 'DM Sans';
+    letter-spacing: .4px;
+    padding: 5px 7px;
+    border-radius: 4px;
+    z-index: 6
+}
+
+.table-icon-action::before {
+    content: '';
+    bottom: calc(100% + 4px);
+    transform: translate(-50%, 4px);
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-top: 5px solid #202521;
+    z-index: 5
+}
+
+.table-icon-action:hover::before,
+.table-icon-action:hover::after,
+.table-icon-action:focus-visible::before,
+.table-icon-action:focus-visible::after {
+    opacity: 1;
+    transform: translate(-50%, 0)
 }
 
 .table-person {
@@ -1076,18 +1251,37 @@ textarea:focus-visible {
         width: fit-content
     }
 
-    .event-filters {
+    .event-copy h3 {
+        font-size: 26px
+    }
+
+    .event-filter-panel {
         display: none;
-        grid-template-columns: 1fr;
+        padding: 12px;
         margin-bottom: 16px
     }
 
-    .event-filters.mobile-open {
-        display: grid
+    .event-filter-panel.mobile-open {
+        display: block
+    }
+
+    .event-filters {
+        grid-template-columns: 1fr;
+        margin-bottom: 12px
     }
 
     .filter-reset {
-        justify-self: start
+        justify-self: start;
+        margin-left: 0
+    }
+
+    .event-filter-actions {
+        justify-content: flex-start
+    }
+
+    .filter-toggle {
+        display: inline-flex;
+        align-items: center
     }
 
     .data-table-cards thead {
@@ -1216,7 +1410,14 @@ textarea:focus-visible {
     }
 
     .admin-toolbar-controls {
-        width: 100%
+        width: 100%;
+        justify-content: flex-start;
+        flex-wrap: wrap;
+        overflow: visible
+    }
+
+    .admin-toolbar-controls>* {
+        flex: 1 1 100%
     }
 
     .admin-search,
@@ -1234,5 +1435,25 @@ textarea:focus-visible {
         left: 10px;
         bottom: calc(84px + env(safe-area-inset-bottom));
         width: auto
+    }
+}
+
+@media(max-width:980px) {
+    .overview-events-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr))
+    }
+
+    .overview-events-grid .event-copy h3 {
+        font-size: clamp(26px, 3.5vw, 32px)
+    }
+}
+
+@media(max-width:620px) {
+    .overview-events-grid {
+        grid-template-columns: 1fr
+    }
+
+    .overview-events-grid .event-copy h3 {
+        font-size: clamp(22px, 7vw, 28px)
     }
 }

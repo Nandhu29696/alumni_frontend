@@ -272,6 +272,10 @@ function Home() {
         }
     }
     async function editPerson(id, person) {
+        if (!id) {
+            notify('error', 'Could not update this profile: missing person id.');
+            return;
+        }
         if (Object.prototype.hasOwnProperty.call(person, 'is_active') && person.is_active === false) {
             const confirmed = await requestConfirm({
                 title: 'Disable this user?',
@@ -283,7 +287,7 @@ function Home() {
         }
         try {
             await (0, __TURBOPACK__imported__module__$5b$project$5d2f$services$2f$api$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["updatePerson"])(id, person);
-            setPeople((current)=>current.map((item)=>item.user_id === id ? {
+            setPeople((current)=>current.map((item)=>(item.user_id || item.id) === id ? {
                         ...item,
                         ...person
                     } : item));
@@ -365,7 +369,7 @@ function Home() {
             onBack: ()=>setSelectedEvent(null)
         }, void 0, false, {
             fileName: "[project]/app/page.jsx",
-            lineNumber: 321,
+            lineNumber: 326,
             columnNumber: 14
         }, this);
     } else if (selectedPerson) {
@@ -374,7 +378,7 @@ function Home() {
             onBack: ()=>setSelectedPerson(null)
         }, void 0, false, {
             fileName: "[project]/app/page.jsx",
-            lineNumber: 323,
+            lineNumber: 328,
             columnNumber: 14
         }, this);
     } else if (active === 'Overview') {
@@ -387,7 +391,7 @@ function Home() {
             setActive: setActive
         }, void 0, false, {
             fileName: "[project]/app/page.jsx",
-            lineNumber: 325,
+            lineNumber: 330,
             columnNumber: 14
         }, this);
     }
@@ -397,12 +401,10 @@ function Home() {
             registered: registered,
             onRsvp: registerFor,
             onOpen: openEvent,
-            onDelete: removeEvent,
-            admin: admin,
             loading: loading
         }, void 0, false, {
             fileName: "[project]/app/page.jsx",
-            lineNumber: 329,
+            lineNumber: 334,
             columnNumber: 14
         }, this);
     }
@@ -417,7 +419,7 @@ function Home() {
             loading: loading
         }, void 0, false, {
             fileName: "[project]/app/page.jsx",
-            lineNumber: 333,
+            lineNumber: 338,
             columnNumber: 14
         }, this);
     }
@@ -428,7 +430,7 @@ function Home() {
             onCancel: cancelEventRsvp
         }, void 0, false, {
             fileName: "[project]/app/page.jsx",
-            lineNumber: 337,
+            lineNumber: 342,
             columnNumber: 14
         }, this);
     }
@@ -439,7 +441,7 @@ function Home() {
             onUploadImages: saveProfileImages
         }, void 0, false, {
             fileName: "[project]/app/page.jsx",
-            lineNumber: 341,
+            lineNumber: 346,
             columnNumber: 14
         }, this);
     }
@@ -460,7 +462,7 @@ function Home() {
             onConfirm: requestConfirm
         }, void 0, false, {
             fileName: "[project]/app/page.jsx",
-            lineNumber: 345,
+            lineNumber: 350,
             columnNumber: 14
         }, this);
     }
@@ -483,20 +485,20 @@ function Home() {
                                             children: todayLabel()
                                         }, void 0, false, {
                                             fileName: "[project]/app/page.jsx",
-                                            lineNumber: 368,
+                                            lineNumber: 373,
                                             columnNumber: 15
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("h1", {
                                             children: title
                                         }, void 0, false, {
                                             fileName: "[project]/app/page.jsx",
-                                            lineNumber: 369,
+                                            lineNumber: 374,
                                             columnNumber: 15
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/app/page.jsx",
-                                    lineNumber: 367,
+                                    lineNumber: 372,
                                     columnNumber: 13
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -513,18 +515,18 @@ function Home() {
                                         }
                                     }, void 0, false, {
                                         fileName: "[project]/app/page.jsx",
-                                        lineNumber: 372,
+                                        lineNumber: 377,
                                         columnNumber: 15
                                     }, this)
                                 }, void 0, false, {
                                     fileName: "[project]/app/page.jsx",
-                                    lineNumber: 371,
+                                    lineNumber: 376,
                                     columnNumber: 13
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/app/page.jsx",
-                            lineNumber: 366,
+                            lineNumber: 371,
                             columnNumber: 11
                         }, this),
                         screen,
@@ -537,38 +539,38 @@ function Home() {
                                     className: "loading-line"
                                 }, void 0, false, {
                                     fileName: "[project]/app/page.jsx",
-                                    lineNumber: 379,
+                                    lineNumber: 384,
                                     columnNumber: 13
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
                                     className: "loading-line short"
                                 }, void 0, false, {
                                     fileName: "[project]/app/page.jsx",
-                                    lineNumber: 379,
+                                    lineNumber: 384,
                                     columnNumber: 46
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
                                     className: "loading-card"
                                 }, void 0, false, {
                                     fileName: "[project]/app/page.jsx",
-                                    lineNumber: 380,
+                                    lineNumber: 385,
                                     columnNumber: 13
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/app/page.jsx",
-                            lineNumber: 378,
+                            lineNumber: 383,
                             columnNumber: 23
                         }, this)
                     ]
                 }, void 0, true, {
                     fileName: "[project]/app/page.jsx",
-                    lineNumber: 365,
+                    lineNumber: 370,
                     columnNumber: 9
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/app/page.jsx",
-                lineNumber: 364,
+                lineNumber: 369,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ToastStack$2e$jsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["default"], {
@@ -576,7 +578,7 @@ function Home() {
                 onDismiss: dismissToast
             }, void 0, false, {
                 fileName: "[project]/app/page.jsx",
-                lineNumber: 385,
+                lineNumber: 390,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ConfirmDialog$2e$jsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["default"], {
@@ -590,13 +592,13 @@ function Home() {
                 onConfirm: ()=>closeConfirm(true)
             }, void 0, false, {
                 fileName: "[project]/app/page.jsx",
-                lineNumber: 386,
+                lineNumber: 391,
                 columnNumber: 7
             }, this)
         ]
     }, void 0, true, {
         fileName: "[project]/app/page.jsx",
-        lineNumber: 363,
+        lineNumber: 368,
         columnNumber: 5
     }, this);
 }
@@ -1434,9 +1436,11 @@ function AdminScreen({ events, people, onCreateEvent, onUpdateEvent, onDeleteEve
                                                 className: "row-actions",
                                                 children: [
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
-                                                        className: "edit-button",
+                                                        className: "edit-button edit-icon-button",
                                                         onClick: ()=>startEdit(item),
-                                                        children: "Edit"
+                                                        "aria-label": `Edit ${item.title}`,
+                                                        title: "Edit event",
+                                                        children: "✎"
                                                     }, void 0, false, {
                                                         fileName: "[project]/components/AdminScreen.jsx",
                                                         lineNumber: 334,
@@ -1688,7 +1692,7 @@ function AdminScreen({ events, people, onCreateEvent, onUpdateEvent, onDeleteEve
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("select", {
                                                         className: "role-select",
                                                         value: item.role || 'alumni',
-                                                        onChange: (eventObject)=>onUpdatePerson(item.user_id, {
+                                                        onChange: (eventObject)=>onUpdatePerson(item.user_id || item.id, {
                                                                 role: eventObject.target.value
                                                             }),
                                                         children: [
@@ -1716,7 +1720,7 @@ function AdminScreen({ events, people, onCreateEvent, onUpdateEvent, onDeleteEve
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
                                                         className: "status-button",
-                                                        onClick: ()=>onUpdatePerson(item.user_id, {
+                                                        onClick: ()=>onUpdatePerson(item.user_id || item.id, {
                                                                 is_active: item.is_active === false
                                                             }),
                                                         children: item.is_active === false ? 'Enable' : 'Disable'
@@ -3545,7 +3549,7 @@ var __TURBOPACK__imported__module__$5b$project$5d2f$components$2f$EventCard$2e$j
 ;
 ;
 ;
-function EventsScreen({ events, registered, onRsvp, onDelete, onOpen, admin, loading = false }) {
+function EventsScreen({ events, registered, onRsvp, onOpen, loading = false }) {
     const [filters, setFilters] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])({
         type: '',
         location: '',
@@ -3584,47 +3588,37 @@ function EventsScreen({ events, registered, onRsvp, onDelete, onOpen, admin, loa
         children: [
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                 className: "screen-heading",
-                children: [
-                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                        children: [
-                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
-                                className: "section-kicker",
-                                children: "MARK YOUR CALENDAR"
-                            }, void 0, false, {
-                                fileName: "[project]/components/EventsScreen.jsx",
-                                lineNumber: 36,
-                                columnNumber: 9
-                            }, this),
-                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("h2", {
-                                children: "Community events"
-                            }, void 0, false, {
-                                fileName: "[project]/components/EventsScreen.jsx",
-                                lineNumber: 37,
-                                columnNumber: 9
-                            }, this),
-                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
-                                children: "Join reunions, conversations, and gatherings hosted by your community."
-                            }, void 0, false, {
-                                fileName: "[project]/components/EventsScreen.jsx",
-                                lineNumber: 38,
-                                columnNumber: 9
-                            }, this)
-                        ]
-                    }, void 0, true, {
-                        fileName: "[project]/components/EventsScreen.jsx",
-                        lineNumber: 35,
-                        columnNumber: 7
-                    }, this),
-                    admin && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
-                        className: "admin-badge",
-                        children: "ADMIN MODE"
-                    }, void 0, false, {
-                        fileName: "[project]/components/EventsScreen.jsx",
-                        lineNumber: 40,
-                        columnNumber: 17
-                    }, this)
-                ]
-            }, void 0, true, {
+                children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                    children: [
+                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                            className: "section-kicker",
+                            children: "MARK YOUR CALENDAR"
+                        }, void 0, false, {
+                            fileName: "[project]/components/EventsScreen.jsx",
+                            lineNumber: 36,
+                            columnNumber: 9
+                        }, this),
+                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("h2", {
+                            children: "Community events"
+                        }, void 0, false, {
+                            fileName: "[project]/components/EventsScreen.jsx",
+                            lineNumber: 37,
+                            columnNumber: 9
+                        }, this),
+                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                            children: "Join reunions, conversations, and gatherings hosted by your community."
+                        }, void 0, false, {
+                            fileName: "[project]/components/EventsScreen.jsx",
+                            lineNumber: 38,
+                            columnNumber: 9
+                        }, this)
+                    ]
+                }, void 0, true, {
+                    fileName: "[project]/components/EventsScreen.jsx",
+                    lineNumber: 35,
+                    columnNumber: 7
+                }, this)
+            }, void 0, false, {
                 fileName: "[project]/components/EventsScreen.jsx",
                 lineNumber: 34,
                 columnNumber: 5
@@ -3639,7 +3633,7 @@ function EventsScreen({ events, registered, onRsvp, onDelete, onOpen, admin, loa
                                 children: "⌕"
                             }, void 0, false, {
                                 fileName: "[project]/components/EventsScreen.jsx",
-                                lineNumber: 45,
+                                lineNumber: 44,
                                 columnNumber: 9
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
@@ -3651,13 +3645,13 @@ function EventsScreen({ events, registered, onRsvp, onDelete, onOpen, admin, loa
                                 placeholder: "Search events"
                             }, void 0, false, {
                                 fileName: "[project]/components/EventsScreen.jsx",
-                                lineNumber: 46,
+                                lineNumber: 45,
                                 columnNumber: 9
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/components/EventsScreen.jsx",
-                        lineNumber: 44,
+                        lineNumber: 43,
                         columnNumber: 7
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -3671,7 +3665,7 @@ function EventsScreen({ events, registered, onRsvp, onDelete, onOpen, admin, loa
                                 children: filtersOpen ? 'Hide filters' : 'Filters'
                             }, void 0, false, {
                                 fileName: "[project]/components/EventsScreen.jsx",
-                                lineNumber: 49,
+                                lineNumber: 48,
                                 columnNumber: 9
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -3685,7 +3679,7 @@ function EventsScreen({ events, registered, onRsvp, onDelete, onOpen, admin, loa
                                         children: "▦ Grid"
                                     }, void 0, false, {
                                         fileName: "[project]/components/EventsScreen.jsx",
-                                        lineNumber: 53,
+                                        lineNumber: 52,
                                         columnNumber: 11
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -3695,146 +3689,162 @@ function EventsScreen({ events, registered, onRsvp, onDelete, onOpen, admin, loa
                                         children: "☷ Table"
                                     }, void 0, false, {
                                         fileName: "[project]/components/EventsScreen.jsx",
-                                        lineNumber: 54,
+                                        lineNumber: 53,
                                         columnNumber: 11
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/components/EventsScreen.jsx",
-                                lineNumber: 52,
+                                lineNumber: 51,
                                 columnNumber: 9
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/components/EventsScreen.jsx",
-                        lineNumber: 48,
+                        lineNumber: 47,
                         columnNumber: 7
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/components/EventsScreen.jsx",
-                lineNumber: 43,
+                lineNumber: 42,
                 columnNumber: 5
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                className: filtersOpen ? 'event-filters mobile-open' : 'event-filters',
+                className: filtersOpen ? 'event-filter-panel mobile-open' : 'event-filter-panel',
                 children: [
-                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
-                        type: "date",
-                        value: filters.date,
-                        onChange: (event)=>updateFilter('date', event.target.value)
-                    }, void 0, false, {
-                        fileName: "[project]/components/EventsScreen.jsx",
-                        lineNumber: 60,
-                        columnNumber: 7
-                    }, this),
-                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("select", {
-                        value: filters.type,
-                        onChange: (event)=>updateFilter('type', event.target.value),
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                        className: "event-filters",
                         children: [
-                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("option", {
-                                value: "",
-                                children: "All types"
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
+                                type: "date",
+                                value: filters.date,
+                                onChange: (event)=>updateFilter('date', event.target.value)
                             }, void 0, false, {
                                 fileName: "[project]/components/EventsScreen.jsx",
-                                lineNumber: 62,
+                                lineNumber: 60,
                                 columnNumber: 9
                             }, this),
-                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("option", {
-                                value: "offline",
-                                children: "Offline"
-                            }, void 0, false, {
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("select", {
+                                value: filters.type,
+                                onChange: (event)=>updateFilter('type', event.target.value),
+                                children: [
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("option", {
+                                        value: "",
+                                        children: "All types"
+                                    }, void 0, false, {
+                                        fileName: "[project]/components/EventsScreen.jsx",
+                                        lineNumber: 62,
+                                        columnNumber: 11
+                                    }, this),
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("option", {
+                                        value: "offline",
+                                        children: "Offline"
+                                    }, void 0, false, {
+                                        fileName: "[project]/components/EventsScreen.jsx",
+                                        lineNumber: 63,
+                                        columnNumber: 11
+                                    }, this),
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("option", {
+                                        value: "online",
+                                        children: "Online"
+                                    }, void 0, false, {
+                                        fileName: "[project]/components/EventsScreen.jsx",
+                                        lineNumber: 64,
+                                        columnNumber: 11
+                                    }, this),
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("option", {
+                                        value: "hybrid",
+                                        children: "Hybrid"
+                                    }, void 0, false, {
+                                        fileName: "[project]/components/EventsScreen.jsx",
+                                        lineNumber: 65,
+                                        columnNumber: 11
+                                    }, this)
+                                ]
+                            }, void 0, true, {
                                 fileName: "[project]/components/EventsScreen.jsx",
-                                lineNumber: 63,
+                                lineNumber: 61,
                                 columnNumber: 9
                             }, this),
-                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("option", {
-                                value: "online",
-                                children: "Online"
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
+                                placeholder: "Filter location",
+                                value: filters.location,
+                                onChange: (event)=>updateFilter('location', event.target.value)
                             }, void 0, false, {
                                 fileName: "[project]/components/EventsScreen.jsx",
-                                lineNumber: 64,
+                                lineNumber: 67,
                                 columnNumber: 9
                             }, this),
-                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("option", {
-                                value: "hybrid",
-                                children: "Hybrid"
-                            }, void 0, false, {
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("select", {
+                                value: filters.status,
+                                onChange: (event)=>updateFilter('status', event.target.value),
+                                children: [
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("option", {
+                                        value: "",
+                                        children: "All status"
+                                    }, void 0, false, {
+                                        fileName: "[project]/components/EventsScreen.jsx",
+                                        lineNumber: 69,
+                                        columnNumber: 11
+                                    }, this),
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("option", {
+                                        value: "upcoming",
+                                        children: "Upcoming"
+                                    }, void 0, false, {
+                                        fileName: "[project]/components/EventsScreen.jsx",
+                                        lineNumber: 70,
+                                        columnNumber: 11
+                                    }, this),
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("option", {
+                                        value: "completed",
+                                        children: "Completed"
+                                    }, void 0, false, {
+                                        fileName: "[project]/components/EventsScreen.jsx",
+                                        lineNumber: 71,
+                                        columnNumber: 11
+                                    }, this),
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("option", {
+                                        value: "cancelled",
+                                        children: "Cancelled"
+                                    }, void 0, false, {
+                                        fileName: "[project]/components/EventsScreen.jsx",
+                                        lineNumber: 72,
+                                        columnNumber: 11
+                                    }, this)
+                                ]
+                            }, void 0, true, {
                                 fileName: "[project]/components/EventsScreen.jsx",
-                                lineNumber: 65,
+                                lineNumber: 68,
                                 columnNumber: 9
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/components/EventsScreen.jsx",
-                        lineNumber: 61,
+                        lineNumber: 59,
                         columnNumber: 7
                     }, this),
-                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
-                        placeholder: "Filter location",
-                        value: filters.location,
-                        onChange: (event)=>updateFilter('location', event.target.value)
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                        className: "event-filter-actions",
+                        children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+                            type: "button",
+                            className: "text-button filter-reset",
+                            onClick: resetFilters,
+                            children: "Reset filters"
+                        }, void 0, false, {
+                            fileName: "[project]/components/EventsScreen.jsx",
+                            lineNumber: 76,
+                            columnNumber: 9
+                        }, this)
                     }, void 0, false, {
                         fileName: "[project]/components/EventsScreen.jsx",
-                        lineNumber: 67,
-                        columnNumber: 7
-                    }, this),
-                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("select", {
-                        value: filters.status,
-                        onChange: (event)=>updateFilter('status', event.target.value),
-                        children: [
-                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("option", {
-                                value: "",
-                                children: "All status"
-                            }, void 0, false, {
-                                fileName: "[project]/components/EventsScreen.jsx",
-                                lineNumber: 69,
-                                columnNumber: 9
-                            }, this),
-                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("option", {
-                                value: "upcoming",
-                                children: "Upcoming"
-                            }, void 0, false, {
-                                fileName: "[project]/components/EventsScreen.jsx",
-                                lineNumber: 70,
-                                columnNumber: 9
-                            }, this),
-                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("option", {
-                                value: "completed",
-                                children: "Completed"
-                            }, void 0, false, {
-                                fileName: "[project]/components/EventsScreen.jsx",
-                                lineNumber: 71,
-                                columnNumber: 9
-                            }, this),
-                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("option", {
-                                value: "cancelled",
-                                children: "Cancelled"
-                            }, void 0, false, {
-                                fileName: "[project]/components/EventsScreen.jsx",
-                                lineNumber: 72,
-                                columnNumber: 9
-                            }, this)
-                        ]
-                    }, void 0, true, {
-                        fileName: "[project]/components/EventsScreen.jsx",
-                        lineNumber: 68,
-                        columnNumber: 7
-                    }, this),
-                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
-                        type: "button",
-                        className: "text-button filter-reset",
-                        onClick: resetFilters,
-                        children: "Reset"
-                    }, void 0, false, {
-                        fileName: "[project]/components/EventsScreen.jsx",
-                        lineNumber: 74,
+                        lineNumber: 75,
                         columnNumber: 7
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/components/EventsScreen.jsx",
-                lineNumber: 59,
+                lineNumber: 58,
                 columnNumber: 5
             }, this),
             loading ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -3847,12 +3857,12 @@ function EventsScreen({ events, registered, onRsvp, onDelete, onOpen, admin, loa
                         className: "event-card skeleton-card"
                     }, index, false, {
                         fileName: "[project]/components/EventsScreen.jsx",
-                        lineNumber: 78,
+                        lineNumber: 81,
                         columnNumber: 52
                     }, this))
             }, void 0, false, {
                 fileName: "[project]/components/EventsScreen.jsx",
-                lineNumber: 77,
+                lineNumber: 80,
                 columnNumber: 16
             }, this) : view === 'grid' ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Fragment"], {
                 children: [
@@ -3862,17 +3872,15 @@ function EventsScreen({ events, registered, onRsvp, onDelete, onOpen, admin, loa
                                 event: event,
                                 registered: registered.includes(event.id),
                                 onRsvp: onRsvp,
-                                onDelete: onDelete,
-                                onOpen: onOpen,
-                                admin: admin
+                                onOpen: onOpen
                             }, event.id, false, {
                                 fileName: "[project]/components/EventsScreen.jsx",
-                                lineNumber: 81,
+                                lineNumber: 84,
                                 columnNumber: 33
                             }, this))
                     }, void 0, false, {
                         fileName: "[project]/components/EventsScreen.jsx",
-                        lineNumber: 80,
+                        lineNumber: 83,
                         columnNumber: 7
                     }, this),
                     !visible.length && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -3880,13 +3888,13 @@ function EventsScreen({ events, registered, onRsvp, onDelete, onOpen, admin, loa
                         children: "No events match your filters."
                     }, void 0, false, {
                         fileName: "[project]/components/EventsScreen.jsx",
-                        lineNumber: 83,
+                        lineNumber: 86,
                         columnNumber: 27
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/components/EventsScreen.jsx",
-                lineNumber: 79,
+                lineNumber: 82,
                 columnNumber: 32
             }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Fragment"], {
                 children: [
@@ -3902,46 +3910,46 @@ function EventsScreen({ events, registered, onRsvp, onDelete, onOpen, admin, loa
                                                 children: "Event"
                                             }, void 0, false, {
                                                 fileName: "[project]/components/EventsScreen.jsx",
-                                                lineNumber: 88,
+                                                lineNumber: 91,
                                                 columnNumber: 17
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("th", {
                                                 children: "Date"
                                             }, void 0, false, {
                                                 fileName: "[project]/components/EventsScreen.jsx",
-                                                lineNumber: 88,
+                                                lineNumber: 91,
                                                 columnNumber: 31
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("th", {
                                                 children: "Location"
                                             }, void 0, false, {
                                                 fileName: "[project]/components/EventsScreen.jsx",
-                                                lineNumber: 88,
+                                                lineNumber: 91,
                                                 columnNumber: 44
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("th", {
                                                 children: "Status"
                                             }, void 0, false, {
                                                 fileName: "[project]/components/EventsScreen.jsx",
-                                                lineNumber: 88,
+                                                lineNumber: 91,
                                                 columnNumber: 61
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("th", {
                                                 children: "Action"
                                             }, void 0, false, {
                                                 fileName: "[project]/components/EventsScreen.jsx",
-                                                lineNumber: 88,
+                                                lineNumber: 91,
                                                 columnNumber: 76
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/components/EventsScreen.jsx",
-                                        lineNumber: 88,
+                                        lineNumber: 91,
                                         columnNumber: 13
                                     }, this)
                                 }, void 0, false, {
                                     fileName: "[project]/components/EventsScreen.jsx",
-                                    lineNumber: 87,
+                                    lineNumber: 90,
                                     columnNumber: 11
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("tbody", {
@@ -3953,12 +3961,12 @@ function EventsScreen({ events, registered, onRsvp, onDelete, onOpen, admin, loa
                                                         children: event.title
                                                     }, void 0, false, {
                                                         fileName: "[project]/components/EventsScreen.jsx",
-                                                        lineNumber: 92,
+                                                        lineNumber: 95,
                                                         columnNumber: 38
                                                     }, this)
                                                 }, void 0, false, {
                                                     fileName: "[project]/components/EventsScreen.jsx",
-                                                    lineNumber: 92,
+                                                    lineNumber: 95,
                                                     columnNumber: 15
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
@@ -3966,7 +3974,7 @@ function EventsScreen({ events, registered, onRsvp, onDelete, onOpen, admin, loa
                                                     children: event.date || '—'
                                                 }, void 0, false, {
                                                     fileName: "[project]/components/EventsScreen.jsx",
-                                                    lineNumber: 93,
+                                                    lineNumber: 96,
                                                     columnNumber: 15
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
@@ -3974,7 +3982,7 @@ function EventsScreen({ events, registered, onRsvp, onDelete, onOpen, admin, loa
                                                     children: event.location || '—'
                                                 }, void 0, false, {
                                                     fileName: "[project]/components/EventsScreen.jsx",
-                                                    lineNumber: 94,
+                                                    lineNumber: 97,
                                                     columnNumber: 15
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
@@ -3984,51 +3992,75 @@ function EventsScreen({ events, registered, onRsvp, onDelete, onOpen, admin, loa
                                                         children: event.status || 'upcoming'
                                                     }, void 0, false, {
                                                         fileName: "[project]/components/EventsScreen.jsx",
-                                                        lineNumber: 95,
+                                                        lineNumber: 98,
                                                         columnNumber: 39
                                                     }, this)
                                                 }, void 0, false, {
                                                     fileName: "[project]/components/EventsScreen.jsx",
-                                                    lineNumber: 95,
+                                                    lineNumber: 98,
                                                     columnNumber: 15
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
                                                     "data-label": "Action",
-                                                    children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
-                                                        className: "table-action",
-                                                        type: "button",
-                                                        onClick: ()=>onOpen(event),
-                                                        children: "Open"
-                                                    }, void 0, false, {
+                                                    children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                        className: "table-action-group",
+                                                        children: [
+                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+                                                                className: "table-icon-action",
+                                                                type: "button",
+                                                                onClick: ()=>onOpen(event),
+                                                                "data-tooltip": "Open",
+                                                                "aria-label": "Open event",
+                                                                children: "↗"
+                                                            }, void 0, false, {
+                                                                fileName: "[project]/components/EventsScreen.jsx",
+                                                                lineNumber: 101,
+                                                                columnNumber: 19
+                                                            }, this),
+                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+                                                                className: registered.includes(event.id) ? 'table-icon-action is-active' : 'table-icon-action',
+                                                                type: "button",
+                                                                disabled: registered.includes(event.id),
+                                                                onClick: ()=>onRsvp(event),
+                                                                "data-tooltip": registered.includes(event.id) ? 'Going' : 'RSVP now',
+                                                                "aria-label": registered.includes(event.id) ? 'Going' : 'RSVP now',
+                                                                children: registered.includes(event.id) ? '✓' : '+'
+                                                            }, void 0, false, {
+                                                                fileName: "[project]/components/EventsScreen.jsx",
+                                                                lineNumber: 110,
+                                                                columnNumber: 19
+                                                            }, this)
+                                                        ]
+                                                    }, void 0, true, {
                                                         fileName: "[project]/components/EventsScreen.jsx",
-                                                        lineNumber: 97,
+                                                        lineNumber: 100,
                                                         columnNumber: 17
                                                     }, this)
                                                 }, void 0, false, {
                                                     fileName: "[project]/components/EventsScreen.jsx",
-                                                    lineNumber: 96,
+                                                    lineNumber: 99,
                                                     columnNumber: 15
                                                 }, this)
                                             ]
                                         }, event.id, true, {
                                             fileName: "[project]/components/EventsScreen.jsx",
-                                            lineNumber: 91,
+                                            lineNumber: 94,
                                             columnNumber: 37
                                         }, this))
                                 }, void 0, false, {
                                     fileName: "[project]/components/EventsScreen.jsx",
-                                    lineNumber: 90,
+                                    lineNumber: 93,
                                     columnNumber: 11
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/components/EventsScreen.jsx",
-                            lineNumber: 86,
+                            lineNumber: 89,
                             columnNumber: 9
                         }, this)
                     }, void 0, false, {
                         fileName: "[project]/components/EventsScreen.jsx",
-                        lineNumber: 85,
+                        lineNumber: 88,
                         columnNumber: 7
                     }, this),
                     !visible.length && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -4036,13 +4068,13 @@ function EventsScreen({ events, registered, onRsvp, onDelete, onOpen, admin, loa
                         children: "No events in table view for this filter."
                     }, void 0, false, {
                         fileName: "[project]/components/EventsScreen.jsx",
-                        lineNumber: 103,
+                        lineNumber: 126,
                         columnNumber: 27
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/components/EventsScreen.jsx",
-                lineNumber: 84,
+                lineNumber: 87,
                 columnNumber: 11
             }, this),
             filtered.length > 6 && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -4056,7 +4088,7 @@ function EventsScreen({ events, registered, onRsvp, onDelete, onOpen, admin, loa
                         children: "Previous"
                     }, void 0, false, {
                         fileName: "[project]/components/EventsScreen.jsx",
-                        lineNumber: 107,
+                        lineNumber: 130,
                         columnNumber: 7
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -4069,7 +4101,7 @@ function EventsScreen({ events, registered, onRsvp, onDelete, onOpen, admin, loa
                         ]
                     }, void 0, true, {
                         fileName: "[project]/components/EventsScreen.jsx",
-                        lineNumber: 108,
+                        lineNumber: 131,
                         columnNumber: 7
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -4080,13 +4112,13 @@ function EventsScreen({ events, registered, onRsvp, onDelete, onOpen, admin, loa
                         children: "Next"
                     }, void 0, false, {
                         fileName: "[project]/components/EventsScreen.jsx",
-                        lineNumber: 109,
+                        lineNumber: 132,
                         columnNumber: 7
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/components/EventsScreen.jsx",
-                lineNumber: 106,
+                lineNumber: 129,
                 columnNumber: 29
             }, this)
         ]
@@ -4544,7 +4576,7 @@ function Overview({ events, people, registered, onRsvp, onOpen, setActive }) {
                 columnNumber: 5
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                className: "events-grid",
+                className: "events-grid overview-events-grid",
                 children: events.slice(0, 3).map((event)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$EventCard$2e$jsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["default"], {
                         event: event,
                         registered: registered.includes(event.id),
@@ -5702,13 +5734,14 @@ __turbopack_context__.s([
 ]);
 const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000/api';
 async function apiRequest(path, options = {}) {
+    const { _retried, ...requestOptions } = options;
     const method = (options.method || 'GET').toUpperCase();
     let csrfToken = typeof document !== 'undefined' ? document.cookie.split('; ').find((item)=>item.startsWith('csrftoken='))?.split('=')[1] : null;
     if ("TURBOPACK compile-time falsy", 0) //TURBOPACK unreachable
     ;
-    const isFormData = typeof FormData !== 'undefined' && options.body instanceof FormData;
+    const isFormData = typeof FormData !== 'undefined' && requestOptions.body instanceof FormData;
     const response = await fetch(`${API_URL}${path}`, {
-        ...options,
+        ...requestOptions,
         credentials: 'include',
         headers: {
             ...isFormData ? {} : {
@@ -5717,12 +5750,37 @@ async function apiRequest(path, options = {}) {
             ...csrfToken ? {
                 'X-CSRFToken': csrfToken
             } : {},
-            ...options.headers
+            ...requestOptions.headers
         }
     });
-    const data = await response.json();
-    if (!response.ok) throw new Error(data.detail || 'Request failed');
-    return data;
+    if (response.status === 401 && !_retried && path !== '/auth/refresh/') {
+        const refreshResponse = await fetch(`${API_URL}/auth/refresh/`, {
+            method: 'POST',
+            credentials: 'include',
+            headers: csrfToken ? {
+                'X-CSRFToken': csrfToken
+            } : undefined
+        });
+        if (refreshResponse.ok) {
+            return apiRequest(path, {
+                ...requestOptions,
+                _retried: true
+            });
+        }
+    }
+    if (response.status === 204 || response.status === 205) {
+        return {};
+    }
+    const contentType = response.headers.get('content-type') || '';
+    const isJson = contentType.includes('application/json');
+    const data = isJson ? await response.json().catch(()=>({})) : await response.text();
+    if (!response.ok) {
+        if (isJson && data && typeof data === 'object') throw new Error(data.detail || 'Request failed');
+        throw new Error(typeof data === 'string' && data.trim() || 'Request failed');
+    }
+    return isJson ? data : {
+        value: data
+    };
 }
 async function refreshSession() {
     return apiRequest('/auth/refresh/', {

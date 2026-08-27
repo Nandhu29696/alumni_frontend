@@ -260,12 +260,12 @@ img, video {
   display: none;
 }
 
-.visible {
-  visibility: visible;
-}
-
 .\!visible {
   visibility: visible !important;
+}
+
+.visible {
+  visibility: visible;
 }
 
 .table {

@@ -331,7 +331,7 @@ export default function AdminScreen({
               <small>{item.date} · {item.location}</small>
             </span>
             <div className="row-actions">
-              <button className="edit-button" onClick={() => startEdit(item)}>Edit</button>
+              <button className="edit-button edit-icon-button" onClick={() => startEdit(item)} aria-label={`Edit ${item.title}`} title="Edit event">✎</button>
               <button className="danger-icon" onClick={() => removeEvent(item)} aria-label={`Delete ${item.title}`}>×</button>
             </div>
           </div>)}
@@ -372,11 +372,11 @@ export default function AdminScreen({
               </span>
             </span>
             <div className="row-actions">
-              <select className="role-select" value={item.role || 'alumni'} onChange={(eventObject) => onUpdatePerson(item.user_id, { role: eventObject.target.value })}>
+              <select className="role-select" value={item.role || 'alumni'} onChange={(eventObject) => onUpdatePerson(item.user_id || item.id, { role: eventObject.target.value })}>
                 <option value="alumni">Alumni</option>
                 <option value="student">Student</option>
               </select>
-              <button className="status-button" onClick={() => onUpdatePerson(item.user_id, { is_active: item.is_active === false })}>
+              <button className="status-button" onClick={() => onUpdatePerson(item.user_id || item.id, { is_active: item.is_active === false })}>
                 {item.is_active === false ? 'Enable' : 'Disable'}
               </button>
               <button className="danger-icon" onClick={() => removePerson(item)} aria-label={`Remove ${item.name}`}>×</button>

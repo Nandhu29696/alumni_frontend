@@ -44,7 +44,7 @@ export default function Overview({ events, people, registered, onRsvp, onOpen, s
       <button className="text-button" onClick={() => setActive('Events')}>
         View all events ↗</button>
     </div>
-    <div className="events-grid">{events.slice(0, 3).map((event) =>
+    <div className="events-grid overview-events-grid">{events.slice(0, 3).map((event) =>
       <EventCard key={event.id} event={event}
         registered={registered.includes(event.id)}
         onRsvp={onRsvp} onOpen={onOpen} />

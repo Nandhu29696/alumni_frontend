@@ -1458,6 +1458,7 @@ __turbopack_context__.s([
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$build$2f$polyfills$2f$process$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = /*#__PURE__*/ __turbopack_context__.i("[project]/node_modules/next/dist/build/polyfills/process.js [app-client] (ecmascript)");
 const API_URL = __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$build$2f$polyfills$2f$process$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"].env.NEXT_PUBLIC_API_URL || 'http://localhost:8000/api';
 async function apiRequest(path, options = {}) {
+    const { _retried, ...requestOptions } = options;
     const method = (options.method || 'GET').toUpperCase();
     let csrfToken = typeof document !== 'undefined' ? document.cookie.split('; ').find((item)=>item.startsWith('csrftoken='))?.split('=')[1] : null;
     if (("TURBOPACK compile-time value", "object") !== 'undefined' && method !== 'GET' && !csrfToken) {
@@ -1467,9 +1468,9 @@ async function apiRequest(path, options = {}) {
         const csrfData = await csrfResponse.json();
         csrfToken = csrfData.csrfToken;
     }
-    const isFormData = typeof FormData !== 'undefined' && options.body instanceof FormData;
+    const isFormData = typeof FormData !== 'undefined' && requestOptions.body instanceof FormData;
     const response = await fetch(`${API_URL}${path}`, {
-        ...options,
+        ...requestOptions,
         credentials: 'include',
         headers: {
             ...isFormData ? {} : {
@@ -1478,12 +1479,37 @@ async function apiRequest(path, options = {}) {
             ...csrfToken ? {
                 'X-CSRFToken': csrfToken
             } : {},
-            ...options.headers
+            ...requestOptions.headers
         }
     });
-    const data = await response.json();
-    if (!response.ok) throw new Error(data.detail || 'Request failed');
-    return data;
+    if (response.status === 401 && !_retried && path !== '/auth/refresh/') {
+        const refreshResponse = await fetch(`${API_URL}/auth/refresh/`, {
+            method: 'POST',
+            credentials: 'include',
+            headers: csrfToken ? {
+                'X-CSRFToken': csrfToken
+            } : undefined
+        });
+        if (refreshResponse.ok) {
+            return apiRequest(path, {
+                ...requestOptions,
+                _retried: true
+            });
+        }
+    }
+    if (response.status === 204 || response.status === 205) {
+        return {};
+    }
+    const contentType = response.headers.get('content-type') || '';
+    const isJson = contentType.includes('application/json');
+    const data = isJson ? await response.json().catch(()=>({})) : await response.text();
+    if (!response.ok) {
+        if (isJson && data && typeof data === 'object') throw new Error(data.detail || 'Request failed');
+        throw new Error(typeof data === 'string' && data.trim() || 'Request failed');
+    }
+    return isJson ? data : {
+        value: data
+    };
 }
 async function refreshSession() {
     return apiRequest('/auth/refresh/', {
